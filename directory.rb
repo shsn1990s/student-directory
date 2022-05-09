@@ -42,6 +42,14 @@ def print(students)
   end
 end
 
+def print_until(students)
+  count = 0
+  until students.length == count do
+    puts "#{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    count += 1
+  end
+end
+
 def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
@@ -70,7 +78,7 @@ end
 # Nothing happens until we call the methods
 students = input_students
 print_header
-print(students)
+print_until(students)
 print_footer(students)
 specific_letters(students)
 charlength(students)
