@@ -43,9 +43,20 @@ def specific_letters(students)
   end
 end
 
+# Returns the name of students whose name is shorter than 12 characters
+def charlength(students)
+  puts "The following students have names shorter than 12 characters."
+  students.each_with_index do |student, index|
+    if student[:name].length < 12
+      puts student[:name]
+    end
+  end
+end
+
 # Nothing happens until we call the methods
 students = input_students
 print_header
 print(students)
 print_footer(students)
 specific_letters(students)
+charlength(students)
