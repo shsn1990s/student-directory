@@ -32,8 +32,20 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
 
+# Returns the name of students whose name begin with specific letters
+def specific_letters(students)
+  letters = ["A", "E", "I", "O", "U"]
+  puts "The following students have letters beginning with #{letters.join(', ')}"
+  students.each_with_index do |student, index|
+    if letters.include? student[:name].to_s[0]
+      puts student[:name]
+    end
+  end
+end
+
 # Nothing happens until we call the methods
 students = input_students
 print_header
 print(students)
 print_footer(students)
+specific_letters(students)
