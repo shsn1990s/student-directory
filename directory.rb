@@ -4,13 +4,27 @@ def input_students
   # create an empty array
   students = []
   # get the first name
+  puts 'Name: '
   name = gets.chomp
-  # while the name is not empty, repeat this code
+   # while the name is not empty, repeat this code
   while !name.empty? do
+      puts "Cohort: "
+      cohort = gets.chomp.to_sym
+      puts "Hobbies: "
+      hobbies = gets.chomp
+      puts "Country of Birth: "
+      countrybirth = gets.chomp
+      puts "Height: "
+      height = gets.chomp
       # Add the student hash to the array
-      students << {name: name, cohort: :november}
-      puts "Now we have #{students.count} students"
-      # get another name from the user
+      students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
+      if students.count > 1
+        puts "Now we have #{students.count} students"
+      else
+        puts "Now we have #{students.count} student"
+      end
+      # get another name from the user, if the entry is blank the while loop will stop.
+      puts "Name: "
       name = gets.chomp
   end
   # Return the array of students
