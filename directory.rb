@@ -20,7 +20,8 @@ def input_students
       puts "Height: "
       height = STDIN.gets.chomp
       # Add the student hash to the array
-      @students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
+      #@students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
+      add_student(name, cohort, hobbies, countrybirth, height)
       if @students.count > 1
         puts "Now we have #{@students.count} students"
       else
@@ -32,6 +33,10 @@ def input_students
   end
   # Return the array of students
   @students
+end
+
+def add_student(name, cohort, hobbies, countrybirth, height)
+  @students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
 end
 
 def print_header
@@ -98,7 +103,7 @@ def save_students
   file = File.open(filename, "w")
   # iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
+    student_data = [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
@@ -111,8 +116,9 @@ def load_students(filename = "students.csv")
   @students = []
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+  name, cohort, hobbies, countrybirth, height = line.chomp.split(',')
+    #@students << {name: name, cohort: cohort.to_sym}
+    add_student(name, cohort, hobbies, countrybirth, height)
   end
   file.close
   puts "#{filename} has been loaded."
@@ -129,8 +135,8 @@ def try_load_students
     load_students(filename)
      puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist."
-    exit # quit the program
+    puts "Sorry, default file #{filename} doesn't exist. No data has been loaded"
+    # exit # quit the program
   end
 end
 
