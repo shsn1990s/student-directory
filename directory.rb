@@ -8,17 +8,17 @@ def input_students
   # get the first name
   puts 'Name: '
   # Can use gets.strip instead of gets.chomp to remove last return character
-  name = gets.chomp
+  name = STDIN.gets.chomp
    # while the name is not empty, repeat this code
   while !name.empty? do
       puts "Cohort: "
-      cohort = gets.chomp.to_sym
+      cohort = STDIN.gets.chomp.to_sym
       puts "Hobbies: "
-      hobbies = gets.chomp
+      hobbies = STDIN.gets.chomp
       puts "Country of Birth: "
-      countrybirth = gets.chomp
+      countrybirth = STDIN.gets.chomp
       puts "Height: "
-      height = gets.chomp
+      height = STDIN.gets.chomp
       # Add the student hash to the array
       @students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
       if @students.count > 1
@@ -28,7 +28,7 @@ def input_students
       end
       # get another name from the user, if the entry is blank the while loop will stop.
       puts "Name: "
-      name = gets.chomp
+      name = STDIN.gets.chomp
   end
   # Return the array of students
   @students
@@ -103,13 +103,25 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+end
+
+def try_load_students
+  filename = ARGV.first # first argument from the command line
+  return if filename.nil? # get out of the method if it isn't given
+  if File.exist?(filename) # if it exists
+    load_students(filename)
+     puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
 end
 
 def print_menu
@@ -140,7 +152,7 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -149,5 +161,5 @@ end
 # specific_letters
 # charlength
 # print_cohortgroup
-
+try_load_students
 interactive_menu
