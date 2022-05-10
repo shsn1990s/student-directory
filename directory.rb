@@ -92,8 +92,10 @@ def show_students
 end
 
 def save_students
+  puts "Please enter a filename:"
+  filename = gets.chomp
   # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(filename, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -101,15 +103,19 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "File saved."
 end
 
 def load_students(filename = "students.csv")
+  # The following clears the array/hash prior to loading new data
+  @students = []
   file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+  puts "#{filename} has been loaded."
 end
 
 def try_load_students
@@ -131,8 +137,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list"
+  puts "4. Load the list"
   puts "9. Exit"
 end
 
@@ -145,7 +151,8 @@ def process(selection)
   when "3"
     save_students
   when "4"
-    load_students
+    puts "Please enter the name of the file to load. Leave blank to load default file."
+    load_students(gets.chomp)
   when "9"
     exit
   else
