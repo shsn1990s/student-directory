@@ -5,7 +5,8 @@ def input_students
   students = []
   # get the first name
   puts 'Name: '
-  name = gets.strip
+  # Can use gets.strip instead of gets.chomp to remove last return character
+  name = gets.chomp
    # while the name is not empty, repeat this code
   while !name.empty? do
       puts "Cohort: "
@@ -77,6 +78,11 @@ def charlength(students)
   end
 end
 
+# Returns the name of students grouped by cohorts
+def print_cohortgroup(students)
+  puts (students.group_by{|element| element[:cohort]}.each{|_, value| value.map!{|element| element[:name]}})
+end
+
 # Nothing happens until we call the methods
 students = input_students
 print_header
@@ -84,3 +90,4 @@ print(students)
 print_footer(students)
 specific_letters(students)
 charlength(students)
+print_cohortgroup(students)
