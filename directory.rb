@@ -5,7 +5,7 @@ def input_students
   students = []
   # get the first name
   puts 'Name: '
-  name = gets.chomp
+  name = gets.strip
    # while the name is not empty, repeat this code
   while !name.empty? do
       puts "Cohort: "
@@ -37,8 +37,10 @@ def print_header
 end
 
 def print(students)
-  students.each_with_index do |student, index|
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  if !students.empty?
+    students.each_with_index do |student, index|
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobbies]} #{student[:countrybirth]} #{student[:height]}"
+    end
   end
 end
 
@@ -78,7 +80,7 @@ end
 # Nothing happens until we call the methods
 students = input_students
 print_header
-print_until(students)
+print(students)
 print_footer(students)
 specific_letters(students)
 charlength(students)
