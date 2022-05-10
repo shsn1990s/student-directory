@@ -83,6 +83,30 @@ def print_cohortgroup(students)
   puts (students.group_by{|element| element[:cohort]}.each{|_, value| value.map!{|element| element[:name]}})
 end
 
+def interactive_menu
+  students = []
+  loop do
+    # 1. Print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    
+    #2. Read the input and save it into a variable
+    selection = gets.chomp
+    #3. Do what the user has asked
+    case selection
+    when "1"
+      puts "Option 1"
+    when "2"
+      puts "Opion 2"
+    when "9"
+      exit
+    else
+      puts "I don't know what you meant, try again."
+    end
+  end
+end
+
 # Nothing happens until we call the methods
 students = input_students
 print_header
