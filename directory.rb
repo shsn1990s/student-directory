@@ -1,8 +1,10 @@
+@students = []
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # create an empty array
-  students = []
+  #students = []
   # get the first name
   puts 'Name: '
   # Can use gets.strip instead of gets.chomp to remove last return character
@@ -18,18 +20,18 @@ def input_students
       puts "Height: "
       height = gets.chomp
       # Add the student hash to the array
-      students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
-      if students.count > 1
-        puts "Now we have #{students.count} students"
+      @students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
+      if @students.count > 1
+        puts "Now we have #{@students.count} students"
       else
-        puts "Now we have #{students.count} student"
+        puts "Now we have #{@students.count} student"
       end
       # get another name from the user, if the entry is blank the while loop will stop.
       puts "Name: "
       name = gets.chomp
   end
   # Return the array of students
-  students
+  @students
 end
 
 def print_header
@@ -37,31 +39,31 @@ def print_header
   puts "-------------".center(50)
 end
 
-def print(students)
-  if !students.empty?
-    students.each_with_index do |student, index|
+def print_students_list
+  if !@students.empty?
+    @students.each_with_index do |student, index|
       puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort) #{student[:hobbies]} #{student[:countrybirth]} #{student[:height]}"
     end
   end
 end
 
-def print_until(students)
+def print_until
   count = 0
   until students.length == count do
-    puts "#{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    puts "#{@students[count][:name]} (#{students[count][:cohort]} cohort)"
     count += 1
   end
 end
 
-def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+def print_footer
+  puts "Overall, we have #{@students.count} great students"
 end
 
 # Returns the name of students whose name begin with specific letters
-def specific_letters(students)
+def specific_letters
   letters = ["A", "E", "I", "O", "U"]
   puts "The following students have letters beginning with #{letters.join(', ')}"
-  students.each_with_index do |student, index|
+  @students.each_with_index do |student, index|
     if letters.include? student[:name].to_s[0]
       puts student[:name]
     end
@@ -69,9 +71,9 @@ def specific_letters(students)
 end
 
 # Returns the name of students whose name is shorter than 12 characters
-def charlength(students)
+def charlength
   puts "The following students have names shorter than 12 characters."
-  students.each_with_index do |student, index|
+  @students.each_with_index do |student, index|
     if student[:name].length < 12
       puts student[:name]
     end
@@ -79,39 +81,46 @@ def charlength(students)
 end
 
 # Returns the name of students grouped by cohorts
-def print_cohortgroup(students)
-  puts (students.group_by{|element| element[:cohort]}.each{|_, value| value.map!{|element| element[:name]}})
+def print_cohortgroup
+  puts (@students.group_by{|element| element[:cohort]}.each{|_, value| value.map!{|element| element[:name]}})
 end
 
-def interactive_menu
-  students = []
-  loop do
-    # 1. Print the menu and ask the user what to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    
-    #2. Read the input and save it into a variable
-    selection = gets.chomp
-    #3. Do what the user has asked
-    case selection
-    when "1"
-      puts "Option 1"
-    when "2"
-      puts "Opion 2"
-    when "9"
-      exit
-    else
-      puts "I don't know what you meant, try again."
-    end
+def show_students
+  print_header
+  print_students_list
+  print_footer
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def process(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "9"
+    exit
+  else
+    puts "I don't know what you meant, try again."
   end
 end
 
-# Nothing happens until we call the methods
-students = input_students
-print_header
-print(students)
-print_footer(students)
-specific_letters(students)
-charlength(students)
-print_cohortgroup(students)
+def interactive_menu
+  loop do
+    print_menu
+    process(gets.chomp)
+  end
+end
+
+# input_students
+# show_students
+# specific_letters
+# charlength
+# print_cohortgroup
+
+interactive_menu
