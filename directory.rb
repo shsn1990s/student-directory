@@ -1,3 +1,4 @@
+require 'csv'
 @students = []
 
 def input_students
@@ -99,29 +100,19 @@ end
 def save_students
   puts "Please enter a filename:"
   filename = gets.chomp
-  # open the file for writing
-  file = File.open(filename, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  CSV.open(filename, "wb") do |csv|
+    @students.each do |student|
+    csv << [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
+    end
   end
-  file.close
   puts "File saved."
 end
 
 def load_students(filename = "students.csv")
-  # The following clears the array/hash prior to loading new data
-  @students = []
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  name, cohort, hobbies, countrybirth, height = line.chomp.split(',')
-    #@students << {name: name, cohort: cohort.to_sym}
+  CSV.foreach(filename) do |row|
+    name, cohort, hobbies, countrybirth, height = row
     add_student(name, cohort, hobbies, countrybirth, height)
   end
-  file.close
-  puts "#{filename} has been loaded."
 end
 
 def try_load_students
