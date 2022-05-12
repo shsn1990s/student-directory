@@ -98,13 +98,26 @@ def show_students
 end
 
 def save_students
+  # puts "Please enter a filename:"
+  # filename = gets.chomp
+  # CSV.open(filename, "wb") do |csv|
+  #   @students.each do |student|
+  #   csv << [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
+  #   end
+  # end
+  # puts "File saved."
   puts "Please enter a filename:"
   filename = gets.chomp
-  CSV.open(filename, "wb") do |csv|
-    @students.each do |student|
-    csv << [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
-    end
+  # open the file for writing
+  file = File.open(filename, "w") do |file|
+  # iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
   end
+  end
+  #file.close
   puts "File saved."
 end
 
