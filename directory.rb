@@ -5,7 +5,6 @@ def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # create an empty array
-  #students = []
   # get the first name
   puts 'Name: '
   # Can use gets.strip instead of gets.chomp to remove last return character
@@ -21,7 +20,6 @@ def input_students
       puts "Height: "
       height = STDIN.gets.chomp
       # Add the student hash to the array
-      #@students << {name: name, cohort: cohort, hobbies: hobbies, countrybirth: countrybirth, height: height}
       add_student(name, cohort, hobbies, countrybirth, height)
       if @students.count > 1
         puts "Now we have #{@students.count} students"
@@ -62,7 +60,11 @@ def print_until
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  if @students.count > 1
+    puts "Overall, we have #{@students.count} great students"
+  else
+    puts "Overall, we have #{@students.count} great student"
+  end
 end
 
 # Returns the name of students whose name begin with specific letters
@@ -98,26 +100,13 @@ def show_students
 end
 
 def save_students
-  # puts "Please enter a filename:"
-  # filename = gets.chomp
-  # CSV.open(filename, "wb") do |csv|
-  #   @students.each do |student|
-  #   csv << [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
-  #   end
-  # end
-  # puts "File saved."
   puts "Please enter a filename:"
   filename = gets.chomp
-  # open the file for writing
-  file = File.open(filename, "w") do |file|
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  CSV.open(filename, "wb") do |csv|
+    @students.each do |student|
+    csv << [student[:name], student[:cohort], student[:hobbies], student[:countrybirth], student[:height]]
+    end
   end
-  end
-  #file.close
   puts "File saved."
 end
 
